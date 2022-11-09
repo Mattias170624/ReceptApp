@@ -34,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     width: double.infinity,
                     margin: EdgeInsets.only(bottom: 20.0),
                     child: Text(
-                      'Category',
+                      'CATEGORY',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
