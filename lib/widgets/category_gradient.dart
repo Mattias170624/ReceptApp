@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 
-class HomeScreenGradient extends StatelessWidget {
+class CategoryGradient extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
