@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors
 
+import 'package:grupp_project/services/firebase/firebase_database.dart';
 import 'package:grupp_project/widgets/category_gradient.dart';
 import 'package:flutter/material.dart';
 
@@ -45,7 +46,9 @@ class CategoryCards extends StatelessWidget {
                   crossAxisSpacing: 10.0,
                   children: List.generate(6, (index) {
                     return GestureDetector(
-                      onTap: () => _handleCategoryClick(index),
+                      onTap: () {
+                        _handleCategoryClick(index);
+                      },
                       child: Container(
                         padding: EdgeInsets.all(25.0),
                         decoration: BoxDecoration(
@@ -96,6 +99,7 @@ class CategoryCards extends StatelessWidget {
   void _handleCategoryClick(int categoryIndex) {
     print(categoryIndex);
     // send user to $index page, and show list of $index type foods
+    FirebaseDatabase().testPost();
   }
 
   AssetImage _getCategoryImages(int categoryIndex) {
