@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:grupp_project/Models/item_model.dart';
-import 'package:grupp_project/widgets/create_recipe.dart';
-import 'package:firebase_core/firebase_core.dart';
 
 class FirebaseDatabase {
   Future<void> testPost() async {
