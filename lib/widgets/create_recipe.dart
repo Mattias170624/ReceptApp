@@ -31,6 +31,8 @@ class _AddRecipeState extends State<AddRecipe> {
       setState(() {
         _image = File(image!.path);
       });
+
+      return _image;
     }
 
     Widget _recipeImage() {
@@ -79,18 +81,31 @@ class _AddRecipeState extends State<AddRecipe> {
         width: double.infinity,
         child: DropdownButtonFormField(
           decoration: InputDecoration(
-            border: OutlineInputBorder(),
+            labelText: 'Category',
+            labelStyle: TextStyle(
+              color: Colors.black,
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                color: Colors.black,
+              ),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                color: Colors.black,
+              ),
+            ),
           ),
-          value: items[0],
           items: items.map((String value) {
             return DropdownMenuItem(
+              // validate that a category is selected
               value: value,
               child: Text(value),
             );
           }).toList(),
-          onChanged: (value) {
+          onChanged: (String? value) {
             setState(() {
-              _recipeCategoryController.text = value.toString();
+              _recipeCategoryController.text = value!;
             });
           },
         ),
@@ -123,6 +138,7 @@ class _AddRecipeState extends State<AddRecipe> {
                   // add _dropdownMenu()
                   _recipeImage(),
                   _dropdownMenu(),
+
                   Form(
                     key: _formKey,
                     child: Column(
@@ -247,6 +263,16 @@ class _AddRecipeState extends State<AddRecipe> {
                     margin: EdgeInsets.only(top: 20.0),
                     child: ElevatedButton(
                       onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          FirebaseDatabase().itemsPost(
+                            _recipeNameController.text,
+                            _recipeDescriptionController.text,
+                            _image.toString(),
+                            _recipeCategoryController.text,
+                            _recipeIngredientsController.text,
+                            _recipeInstructionsController.text,
+                          );
+                        }
                         if (_formKey.currentState!.validate()) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
