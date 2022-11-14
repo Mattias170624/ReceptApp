@@ -3,6 +3,7 @@
 import 'package:grupp_project/widgets/category_cards.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:grupp_project/widgets/create_recipe.dart';
 
 class DynamicMainScreen extends StatefulWidget {
   @override
@@ -43,9 +44,7 @@ class _DynamicMainScreenState extends State<DynamicMainScreen> {
       case 1:
         return CategoryCards();
       case 2:
-        return Center(
-          child: Text('Add recipe'),
-        );
+        return AddRecipe();
 
       default:
         return Center(
