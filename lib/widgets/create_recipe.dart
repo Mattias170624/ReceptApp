@@ -100,164 +100,166 @@ class _AddRecipeState extends State<AddRecipe> {
     return Stack(
       children: [
         CategoryGradient(),
-        SafeArea(
-          child: Container(
-            padding: EdgeInsets.all(25.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Container(
-                  width: double.infinity,
-                  margin: EdgeInsets.only(bottom: 20.0),
-                  child: Text(
-                    'Add a new recipe',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                      fontSize: 24.0,
+        SingleChildScrollView(
+          child: SafeArea(
+            child: Container(
+              padding: EdgeInsets.all(25.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Container(
+                    width: double.infinity,
+                    margin: EdgeInsets.only(bottom: 20.0),
+                    child: Text(
+                      'Add a new recipe',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                        fontSize: 24.0,
+                      ),
                     ),
                   ),
-                ),
-                // add _dropdownMenu()
-                _recipeImage(),
-                _dropdownMenu(),
-                Form(
-                  key: _formKey,
-                  child: Column(
-                    children: [
-                      TextFormField(
-                        controller: _recipeNameController,
-                        decoration: InputDecoration(
-                          labelText: 'Recipe name',
-                          labelStyle: TextStyle(
+                  // add _dropdownMenu()
+                  _recipeImage(),
+                  _dropdownMenu(),
+                  Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          controller: _recipeNameController,
+                          decoration: InputDecoration(
+                            labelText: 'Recipe name',
+                            labelStyle: TextStyle(
+                              color: Colors.black,
+                            ),
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.black,
+                              ),
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                          style: TextStyle(
                             color: Colors.black,
                           ),
-                          enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter a recipe name';
+                            }
+                            return null;
+                          },
+                        ),
+                        TextFormField(
+                          controller: _recipeDescriptionController,
+                          decoration: InputDecoration(
+                            labelText: 'Recipe description',
+                            labelStyle: TextStyle(
                               color: Colors.black,
                             ),
-                          ),
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.black,
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.black,
+                              ),
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.black,
+                              ),
                             ),
                           ),
-                        ),
-                        style: TextStyle(
-                          color: Colors.black,
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter a recipe name';
-                          }
-                          return null;
-                        },
-                      ),
-                      TextFormField(
-                        controller: _recipeDescriptionController,
-                        decoration: InputDecoration(
-                          labelText: 'Recipe description',
-                          labelStyle: TextStyle(
+                          style: TextStyle(
                             color: Colors.black,
                           ),
-                          enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter a recipe description';
+                            }
+                            return null;
+                          },
+                        ),
+                        TextFormField(
+                          controller: _recipeIngredientsController,
+                          decoration: InputDecoration(
+                            labelText: 'Recipe ingredients',
+                            labelStyle: TextStyle(
                               color: Colors.black,
                             ),
-                          ),
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.black,
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.black,
+                              ),
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.black,
+                              ),
                             ),
                           ),
-                        ),
-                        style: TextStyle(
-                          color: Colors.black,
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter a recipe description';
-                          }
-                          return null;
-                        },
-                      ),
-                      TextFormField(
-                        controller: _recipeIngredientsController,
-                        decoration: InputDecoration(
-                          labelText: 'Recipe ingredients',
-                          labelStyle: TextStyle(
+                          style: TextStyle(
                             color: Colors.black,
                           ),
-                          enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter a recipe ingredients';
+                            }
+                            return null;
+                          },
+                        ),
+                        TextFormField(
+                          controller: _recipeInstructionsController,
+                          decoration: InputDecoration(
+                            labelText: 'Recipe instructions',
+                            labelStyle: TextStyle(
                               color: Colors.black,
                             ),
-                          ),
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.black,
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.black,
+                              ),
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.black,
+                              ),
                             ),
                           ),
-                        ),
-                        style: TextStyle(
-                          color: Colors.black,
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter a recipe ingredients';
-                          }
-                          return null;
-                        },
-                      ),
-                      TextFormField(
-                        controller: _recipeInstructionsController,
-                        decoration: InputDecoration(
-                          labelText: 'Recipe instructions',
-                          labelStyle: TextStyle(
+                          style: TextStyle(
                             color: Colors.black,
                           ),
-                          enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.black,
-                            ),
-                          ),
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.black,
-                            ),
-                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter a recipe instructions';
+                            }
+                            return null;
+                          },
                         ),
-                        style: TextStyle(
-                          color: Colors.black,
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter a recipe instructions';
-                          }
-                          return null;
-                        },
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                Container(
-                  width: double.infinity,
-                  margin: EdgeInsets.only(top: 20.0),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text('Processing Data'),
-                          ),
-                        );
-                      }
-                    },
-                    child: Text('Submit'),
+                  Container(
+                    width: double.infinity,
+                    margin: EdgeInsets.only(top: 20.0),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Processing Data'),
+                            ),
+                          );
+                        }
+                      },
+                      child: Text('Submit'),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
