@@ -1,5 +1,6 @@
 // ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors, use_build_context_synchronously
 
+import 'package:grupp_project/services/firebase/firebase_database.dart';
 import 'package:grupp_project/widgets/category_gradient.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
@@ -223,46 +224,7 @@ class _AddRecipeState extends State<AddRecipe> {
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () async {
-                        if (_formKey.currentState!.validate()) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              backgroundColor: Colors.black87,
-                              behavior: SnackBarBehavior.floating,
-                              margin: EdgeInsets.only(
-                                  bottom: 5.0, left: 5.0, right: 5.0),
-                              duration: Duration(seconds: 3),
-                              content: Text(
-                                'Processing Data..',
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          );
-
-                          // await FirebaseDatabase().itemsPost(
-                          //   _recipeNameController.text,
-                          //   _recipeDescriptionController.text,
-                          //   _image.toString(),
-                          //   _recipeCategoryController.text,
-                          //   _recipeIngredientsController.text,
-                          //   _recipeInstructionsController.text,
-                          // );
-
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              backgroundColor: Colors.green.shade600,
-                              behavior: SnackBarBehavior.floating,
-                              margin: EdgeInsets.only(
-                                  bottom: 5.0, left: 5.0, right: 5.0),
-                              duration: Duration(seconds: 1),
-                              content: Text(
-                                'Added new recipe!',
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          );
-                        }
-                      },
+                      onPressed: _handleSubmit,
                       child: Text(
                         'Submit',
                         style: TextStyle(
@@ -278,6 +240,62 @@ class _AddRecipeState extends State<AddRecipe> {
           ),
         ),
       ],
+    );
+  }
+
+  void _handleSubmit() async {
+    if (!_formKey.currentState!.validate()) return;
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: Colors.black87,
+        behavior: SnackBarBehavior.floating,
+        margin: EdgeInsets.only(bottom: 5.0, left: 5.0, right: 5.0),
+        duration: Duration(seconds: 2),
+        content: Text(
+          'Processing Data..',
+          textAlign: TextAlign.center,
+        ),
+      ),
+    );
+
+    try {
+      await Future.delayed(Duration(milliseconds: 2500));
+      await FirebaseDatabase().itemsPost(
+        _recipeNameController.text,
+        _recipeDescriptionController.text,
+        _image.toString(),
+        _recipeCategoryController.text,
+        _recipeIngredientsController.text,
+        _recipeInstructionsController.text,
+      );
+    } catch (error) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.red,
+          behavior: SnackBarBehavior.floating,
+          margin: EdgeInsets.only(bottom: 5.0, left: 5.0, right: 5.0),
+          duration: Duration(seconds: 1),
+          content: Text(
+            'Error adding recipe',
+            textAlign: TextAlign.center,
+          ),
+        ),
+      );
+    }
+
+    _clearTextControllers();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: Colors.green.shade600,
+        behavior: SnackBarBehavior.floating,
+        margin: EdgeInsets.only(bottom: 5.0, left: 5.0, right: 5.0),
+        duration: Duration(seconds: 1),
+        content: Text(
+          'Added new recipe!',
+          textAlign: TextAlign.center,
+        ),
+      ),
     );
   }
 
@@ -389,5 +407,12 @@ class _AddRecipeState extends State<AddRecipe> {
         ],
       ),
     );
+  }
+
+  void _clearTextControllers() {
+    _recipeInstructionsController.clear();
+    _recipeDescriptionController.clear();
+    _recipeIngredientsController.clear();
+    _recipeNameController.clear();
   }
 }
