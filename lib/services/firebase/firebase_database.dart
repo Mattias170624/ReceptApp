@@ -1,31 +1,34 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:grupp_project/Models/item_model.dart';
-import 'package:grupp_project/widgets/create_recipe.dart';
-import 'package:firebase_core/firebase_core.dart';
 
 class FirebaseDatabase {
+  // Single reference to database instance
+  FirebaseFirestore database = FirebaseFirestore.instance;
+
   Future<void> testPost() async {
-    CollectionReference userRef =
-        FirebaseFirestore.instance.collection('users');
+    CollectionReference userRef = database.collection('users');
 
     await userRef.add({'123': '123'});
   }
 
   Future<void> itemsPost(
       name, description, image, category, ingredients, instructions) async {
-    final docItem = FirebaseFirestore.instance.collection('Items').doc();
+    final docItem = database.collection('items').doc('allFoods');
 
     final item = ItemModel(
-        id: docItem.id,
-        name: name,
-        description: description,
-        image: image,
-        category: category,
-        ingredients: ingredients,
-        instructions: instructions);
+      id: docItem.id,
+      name: name,
+      description: description,
+      image: image,
+      category: category,
+      ingredients: ingredients,
+      instructions: instructions,
+    );
 
-    final json = item.toJson();
+    final itemJson = item.toJson();
 
-    await docItem.set(json);
+    await docItem.set({
+      'foodArray': FieldValue.arrayUnion([itemJson]),
+    }, SetOptions(merge: true));
   }
 }
