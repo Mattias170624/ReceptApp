@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:grupp_project/Models/item_model.dart';
+import 'package:grupp_project/widgets/create_recipe.dart';
 
 class FirebaseDatabase {
   // Single reference to database instance
   FirebaseFirestore database = FirebaseFirestore.instance;
+
 
   Future<void> testPost() async {
     CollectionReference userRef = database.collection('users');
@@ -31,4 +33,10 @@ class FirebaseDatabase {
       'foodArray': FieldValue.arrayUnion([itemJson]),
     }, SetOptions(merge: true));
   }
+
+
+
+
+
+
 }

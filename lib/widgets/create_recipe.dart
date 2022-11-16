@@ -22,6 +22,8 @@ class _AddRecipeState extends State<AddRecipe> {
   final _recipeCategoryController = TextEditingController();
   File? _image;
 
+  List usersRecepiesList = [];
+
   final items = [
     'Meat',
     'Soup',
@@ -30,6 +32,8 @@ class _AddRecipeState extends State<AddRecipe> {
     'Pizza',
     'Dessert',
   ];
+
+
 
   @override
   Widget build(BuildContext context) {

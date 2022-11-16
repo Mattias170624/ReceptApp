@@ -4,6 +4,12 @@ import 'package:grupp_project/services/firebase/firebase_database.dart';
 import 'package:grupp_project/widgets/category_gradient.dart';
 import 'package:flutter/material.dart';
 import 'package:grupp_project/widgets/create_recipe.dart';
+import 'package:grupp_project/widgets/list_Recipes/meat_list.dart';
+import 'package:grupp_project/widgets/list_Recipes/soup_list.dart';
+import 'package:grupp_project/widgets/list_Recipes/pasta_list.dart';
+import 'package:grupp_project/widgets/list_Recipes/taco_list.dart';
+import 'package:grupp_project/widgets/list_Recipes/pizza_list.dart';
+import 'package:grupp_project/widgets/list_Recipes/dessert_list.dart';
 
 class CategoryCards extends StatelessWidget {
   final List<String> _getFoodCategoryNames = [
@@ -48,7 +54,31 @@ class CategoryCards extends StatelessWidget {
                   children: List.generate(6, (index) {
                     return GestureDetector(
                       onTap: () {
-                        _handleCategoryClick(index);
+                        if (index==0) {
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=> Meat_List()));
+                          _handleCategoryClick(index);
+                        }
+                        if(index==1) {
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=> Soup_List()));
+                          _handleCategoryClick(index);
+                        }
+                        if(index==2) {
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=> Pasta_List()));
+                          _handleCategoryClick(index);
+                        }
+                        if(index==3) {
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=> Taco_List()));
+                          _handleCategoryClick(index);
+                        }
+                        if(index==4) {
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=> Pizza_List()));
+                          _handleCategoryClick(index);
+                        }
+                        if(index==5) {
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=> Dessert_List()));
+                          _handleCategoryClick(index);
+                        }
+
                       },
                       child: Container(
                         padding: EdgeInsets.all(25.0),
