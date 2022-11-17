@@ -1,9 +1,10 @@
 //ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors
 
+import 'package:grupp_project/services/firebase/firebase_database.dart';
 import 'package:grupp_project/widgets/category_cards.dart';
+import 'package:grupp_project/widgets/create_recipe.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:grupp_project/widgets/create_recipe.dart';
 
 class DynamicMainScreen extends StatefulWidget {
   @override
@@ -12,6 +13,12 @@ class DynamicMainScreen extends StatefulWidget {
 
 class _DynamicMainScreenState extends State<DynamicMainScreen> {
   int _pageIndex = 1;
+
+  @override
+  void initState() {
+    FirebaseDatabase().fetchAllFoods();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +46,7 @@ class _DynamicMainScreenState extends State<DynamicMainScreen> {
     switch (_pageIndex) {
       case 0:
         return Center(
-          child: Text('Favourite screen'),
+          child: Text('Favorite screen'),
         );
       case 1:
         return CategoryCards();
