@@ -4,6 +4,8 @@ import 'package:grupp_project/services/firebase/firebase_database.dart';
 import 'package:grupp_project/widgets/food_info.dart';
 import 'package:flutter/material.dart';
 
+import 'category_gradient.dart';
+
 class FoodList extends StatefulWidget {
   final int? index;
   final String? categoryName;
@@ -18,7 +20,7 @@ class _FoodListState extends State<FoodList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
+      backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.onPrimary,
         title: Text(
@@ -70,33 +72,46 @@ class _FoodListState extends State<FoodList> {
                   );
                 },
                 child: Card(
-                  color: Colors.white,
-                  child: Container(
-                    padding: EdgeInsets.all(10.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          '${foodMap[index]['name']}',
-                        ),
-                        Divider(
-                          thickness: 1,
-                        ),
-                        SizedBox(
-                          height: 10.0,
-                        ),
-                        Text(
-                          'Description:',
-                          style: TextStyle(
-                            fontSize: 16.0,
+                  color: Theme.of(context).colorScheme.onPrimary,
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 100,
+                        height: 100,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: NetworkImage(
+                              '${foodMap[index]['image']}',
+                            ),
+                            fit: BoxFit.cover,
                           ),
                         ),
-                        Text(
-                          '${foodMap[index]['description']}',
-                        ),
-                      ],
-                    ),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            foodMap[index]['name'],
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            foodMap[index]['description'],
+                            style: TextStyle(
+                              fontSize: 15,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
               );

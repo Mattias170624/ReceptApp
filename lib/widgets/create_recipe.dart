@@ -5,6 +5,7 @@ import 'package:grupp_project/widgets/category_gradient.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class AddRecipe extends StatefulWidget {
   @override
@@ -20,7 +21,8 @@ class _AddRecipeState extends State<AddRecipe> {
   final _recipeIngredientsController = TextEditingController();
   final _recipeInstructionsController = TextEditingController();
   final _recipeCategoryController = TextEditingController();
-  File? _image;
+
+  String _image = '';
 
   final items = [
     'Meat',
@@ -246,6 +248,21 @@ class _AddRecipeState extends State<AddRecipe> {
   void _handleSubmit() async {
     if (!_formKey.currentState!.validate()) return;
 
+    if (_formKey.currentState!.validate()) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.black87,
+          behavior: SnackBarBehavior.floating,
+          margin: EdgeInsets.only(bottom: 5.0, left: 5.0, right: 5.0),
+          duration: Duration(seconds: 2),
+          content: Text(
+            'Processing Data..',
+            textAlign: TextAlign.center,
+          ),
+        ),
+      );
+    }
+
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         backgroundColor: Colors.black87,
@@ -264,7 +281,7 @@ class _AddRecipeState extends State<AddRecipe> {
       await FirebaseDatabase().itemsPost(
         _recipeNameController.text,
         _recipeDescriptionController.text,
-        _image.toString(),
+        _image,
         _recipeCategoryController.text,
         _recipeIngredientsController.text,
         _recipeInstructionsController.text,
@@ -343,15 +360,27 @@ class _AddRecipeState extends State<AddRecipe> {
   }
 
   Future _getImage() async {
-    // getImage
-    final ImagePicker picker = ImagePicker();
-    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+    ImagePicker imagePicker = ImagePicker();
+    XFile? file = await imagePicker.pickImage(source: ImageSource.gallery);
 
-    setState(() {
-      _image = File(image!.path);
-    });
+    if (file == null) return String;
+    var uniqueFileName = DateTime.now().millisecondsSinceEpoch.toString();
 
-    return _image;
+    Reference ref = FirebaseStorage.instance.ref();
+    Reference referenceDirImages = ref.child('Images1');
+
+    Reference referenceFile = referenceDirImages.child(uniqueFileName);
+
+    try {
+      await referenceFile.putFile(File(file.path));
+      String url = await referenceFile.getDownloadURL();
+      setState(() {
+        _image = url;
+      });
+    } catch (e) {
+      print(e);
+    }
+    referenceFile.putFile(File(file!.path));
   }
 
   Widget _recipeImage() {
@@ -378,7 +407,8 @@ class _AddRecipeState extends State<AddRecipe> {
       child: Stack(
         fit: StackFit.expand,
         children: [
-          _image == null
+          /*
+          _image == ""
               ? ClipRRect(
                   borderRadius: BorderRadius.circular(10.0),
                   child: Image.network(
@@ -389,10 +419,11 @@ class _AddRecipeState extends State<AddRecipe> {
               : ClipRRect(
                   borderRadius: BorderRadius.circular(10.0),
                   child: Image.file(
-                    _image!,
+                    File(_image),
                     fit: BoxFit.cover,
                   ),
                 ),
+                */
           Positioned(
             bottom: 10,
             right: 10,
