@@ -21,6 +21,7 @@ class _AddRecipeState extends State<AddRecipe> {
   final _recipeIngredientsController = TextEditingController();
   final _recipeInstructionsController = TextEditingController();
   final _recipeCategoryController = TextEditingController();
+  bool showImageError = false;
 
   String _image = '';
 
@@ -32,6 +33,12 @@ class _AddRecipeState extends State<AddRecipe> {
     'Pizza',
     'Dessert',
   ];
+
+  void setImageError(bool newValue) {
+    setState(() {
+      showImageError = newValue;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,9 +69,8 @@ class _AddRecipeState extends State<AddRecipe> {
                     key: _formKey,
                     child: Column(
                       children: [
-                        _recipeImage(),
                         Container(
-                          margin: EdgeInsets.only(top: 25.0, bottom: 20.0),
+                          margin: EdgeInsets.only(bottom: 20.0),
                           padding: EdgeInsets.symmetric(
                               vertical: 10.0, horizontal: 20.0),
                           decoration: BoxDecoration(
@@ -81,6 +87,20 @@ class _AddRecipeState extends State<AddRecipe> {
                           ),
                           child: Column(
                             children: [
+                              _recipeImage(),
+                              Visibility(
+                                visible: showImageError,
+                                child: Container(
+                                  margin: EdgeInsets.only(top: 10.0),
+                                  width: double.infinity,
+                                  child: Text(
+                                    'Please pick an image!',
+                                    style: TextStyle(
+                                      color: Colors.red,
+                                    ),
+                                  ),
+                                ),
+                              ),
                               _dropdownMenu(),
                               SizedBox(
                                 height: 10.0,
@@ -247,20 +267,9 @@ class _AddRecipeState extends State<AddRecipe> {
 
   void _handleSubmit() async {
     if (!_formKey.currentState!.validate()) return;
-
-    if (_formKey.currentState!.validate()) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          backgroundColor: Colors.black87,
-          behavior: SnackBarBehavior.floating,
-          margin: EdgeInsets.only(bottom: 5.0, left: 5.0, right: 5.0),
-          duration: Duration(seconds: 2),
-          content: Text(
-            'Processing Data..',
-            textAlign: TextAlign.center,
-          ),
-        ),
-      );
+    if (_image.isEmpty) {
+      setImageError(true);
+      return;
     }
 
     ScaffoldMessenger.of(context).showSnackBar(
@@ -286,6 +295,7 @@ class _AddRecipeState extends State<AddRecipe> {
         _recipeIngredientsController.text,
         _recipeInstructionsController.text,
       );
+      await FirebaseDatabase().fetchAllFoods(true);
     } catch (error) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -380,6 +390,8 @@ class _AddRecipeState extends State<AddRecipe> {
     } catch (e) {
       print(e);
     }
+
+    setImageError(false);
     referenceFile.putFile(File(file!.path));
   }
 
@@ -387,6 +399,7 @@ class _AddRecipeState extends State<AddRecipe> {
     return Container(
       height: 200,
       width: double.infinity,
+      margin: EdgeInsets.only(top: 10.0, bottom: 10.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.0),
         color: Colors.white,
@@ -445,5 +458,9 @@ class _AddRecipeState extends State<AddRecipe> {
     _recipeDescriptionController.clear();
     _recipeIngredientsController.clear();
     _recipeNameController.clear();
+
+    setState(() {
+      _image = '';
+    });
   }
 }

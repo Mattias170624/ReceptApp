@@ -6,8 +6,12 @@ class FirebaseDatabase {
   FirebaseFirestore database = FirebaseFirestore.instance;
   static var listOfFoods = {};
 
-  Future<Map?> fetchAllFoods() async {
-    if (listOfFoods.isNotEmpty) return listOfFoods;
+  Future<Map?> fetchAllFoods([bool updateFoodList = false]) async {
+    if (updateFoodList == true) {
+      listOfFoods.clear();
+    } else {
+      if (listOfFoods.isNotEmpty) return listOfFoods;
+    }
 
     print('Reading db');
     final docRef = database.collection('items').doc('allFoods');
