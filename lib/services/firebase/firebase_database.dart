@@ -53,4 +53,32 @@ class FirebaseDatabase {
       'foodArray': FieldValue.arrayUnion([itemJson]),
     }, SetOptions(merge: true));
   }
+
+  Future<void> itemFavorite(
+    name,
+    description,
+    image,
+    category,
+    ingredients,
+    instructions,
+  ) async {
+    final docItem = database.collection('items').doc('favoriteFoods');
+
+    final item = ItemModel(
+      id: docItem.id,
+      name: name,
+      description: description,
+      image: image,
+      category: category,
+      ingredients: ingredients,
+      instructions: instructions,
+      isFav: true,
+    );
+
+    final itemJson = item.toJson();
+
+    await docItem.set({
+      'favoriteFoods': FieldValue.arrayUnion([itemJson]),
+    }, SetOptions(merge: true));
+  }
 }
