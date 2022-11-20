@@ -5,6 +5,7 @@ class FirebaseDatabase {
   // Single reference to database instance
   FirebaseFirestore database = FirebaseFirestore.instance;
   static var listOfFoods = {};
+  static var listOfFavouriteFoods = {};
 
   Future<Map?> fetchAllFoods([bool updateFoodList = false]) async {
     if (updateFoodList == true) {
@@ -29,6 +30,35 @@ class FirebaseDatabase {
       });
     } catch (e) {
       print(e);
+    }
+    return null;
+  }
+
+  Future<Map?> fetchFavFoods([bool updateFoodList = false]) async {
+    if (updateFoodList == true) {
+      listOfFavouriteFoods.clear();
+    } else {
+      if (listOfFavouriteFoods.isNotEmpty) return listOfFavouriteFoods;
+    }
+
+    print('Reading db');
+    final docRef = database.collection('items').doc('favoriteFoods');
+    try {
+      docRef.get().then((value) {
+        value.get('favoriteFoods');
+        if (value.data() == null) return;
+        print('${value.data()}');
+
+        // Converting value.data() type to normal maps
+        final array = value.data()!.values;
+
+        for (var element in array) {
+          listOfFavouriteFoods.addAll(element.asMap());
+        }
+      });
+    } catch (e) {
+      print(e);
+      return null;
     }
     return null;
   }
@@ -80,5 +110,6 @@ class FirebaseDatabase {
     await docItem.set({
       'favoriteFoods': FieldValue.arrayUnion([itemJson]),
     }, SetOptions(merge: true));
+    await fetchFavFoods(true);
   }
 }

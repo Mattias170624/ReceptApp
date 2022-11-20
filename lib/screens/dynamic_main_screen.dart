@@ -5,6 +5,7 @@ import 'package:grupp_project/widgets/category_cards.dart';
 import 'package:grupp_project/widgets/create_recipe.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:grupp_project/widgets/favorite_list.dart';
 
 class DynamicMainScreen extends StatefulWidget {
   @override
@@ -17,6 +18,7 @@ class _DynamicMainScreenState extends State<DynamicMainScreen> {
   @override
   void initState() {
     FirebaseDatabase().fetchAllFoods();
+    FirebaseDatabase().fetchFavFoods();
     super.initState();
   }
 
@@ -45,9 +47,7 @@ class _DynamicMainScreenState extends State<DynamicMainScreen> {
   Widget _chooseWhatPage() {
     switch (_pageIndex) {
       case 0:
-        return Center(
-          child: Text('Favorite screen'),
-        );
+        return FavoriteList();
       case 1:
         return CategoryCards();
       case 2:
