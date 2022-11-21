@@ -238,7 +238,7 @@ class _FoodInfoState extends State<FoodInfo> {
                     '${widget.foodMap!['description']}',
                     '${widget.foodMap!['image']}',
                     '${widget.foodMap!['category']}',
-                    '${widget.foodMap!['ingridients']}',
+                    '${widget.foodMap!['ingredients']}',
                     '${widget.foodMap!['instructions']}');
               } catch (e) {
                 print(e);
